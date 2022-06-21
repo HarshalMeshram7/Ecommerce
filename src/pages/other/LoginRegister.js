@@ -1,13 +1,28 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import MetaTags from "react-meta-tags";
 import { Link } from "react-router-dom";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
-
+import { login } from "../../request/authRequest";
 const LoginRegister = (props) => {
-  
+  const [email, setEmail] = useState("admin");
+  const [pass, setPass] = useState("admin");
+  const handleLogin = () => {
+    let data = {
+      email: email,
+      password: pass
+    }
+    login(data).then((res) => {
+      if (res !== undefined) {
+        localStorage.setItem("token", res.token);
+        props.onHandleToken(localStorage.getItem("token"))
+      } else {
+        alert("Email or Password is incorrect")
+      }
+    })
+  }
   return (
     <Fragment>
       <MetaTags>
@@ -42,16 +57,20 @@ const LoginRegister = (props) => {
                       <Tab.Pane eventKey="login">
                         <div className="login-form-container">
                           <div className="login-register-form">
-                            <form>
+                            <div className="form">
                               <input
+                                onChange={(e) => setEmail(e.target.value)}
                                 type="text"
-                                name="user-name"
-                                placeholder="Username"
+                                name="email"
+                                placeholder="email"
+                                value={email}
                               />
                               <input
+                                onChange={(e) => setPass(e.target.value)}
                                 type="password"
-                                name="user-password"
+                                name="password"
                                 placeholder="Password"
+                                value={pass}
                               />
                               <div className="button-box">
                                 <div className="login-toggle-btn">
@@ -61,18 +80,18 @@ const LoginRegister = (props) => {
                                     Forgot Password?
                                   </Link>
                                 </div>
-                                <button type="submit">
+                                <button type="submit" onClick={handleLogin} >
                                   <span>Login</span>
                                 </button>
                               </div>
-                            </form>
+                            </div>
                           </div>
                         </div>
                       </Tab.Pane>
                       <Tab.Pane eventKey="register">
                         <div className="login-form-container">
                           <div className="login-register-form">
-                            <form>
+                            <div className="form">
                               <input
                                 type="text"
                                 name="user-name"
@@ -93,7 +112,7 @@ const LoginRegister = (props) => {
                                   <span>Register</span>
                                 </button>
                               </div>
-                            </form>
+                            </div>
                           </div>
                         </div>
                       </Tab.Pane>

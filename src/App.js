@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useEffect,useState, Suspense, lazy } from "react";
+import React, { useEffect, useState, Suspense, lazy } from "react";
 import ScrollToTop from "./helpers/scroll-top";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ToastProvider } from "react-toast-notifications";
@@ -122,39 +122,37 @@ const App = (props) => {
     );
   });
   const [token, setToken] = useState();
-
+  useEffect(() => {
+    setToken(localStorage.getItem("token"))
+  }, [])
+  const handleToken = (value) => {
+    setToken(value);
+  }
   if (!token) {
     return (
       <>
-      <ToastProvider placement="bottom-left">
-        <BreadcrumbsProvider>
-          <Router>
-            <ScrollToTop>
-              <Suspense
-                fallback={
-                  <div className="flone-preloader-wrapper">
-                    <div className="flone-preloader">
-                      <span></span>
-                      <span></span>
+        <ToastProvider placement="bottom-left">
+          <BreadcrumbsProvider>
+            <Router>
+              <ScrollToTop>
+                <Suspense
+                  fallback={
+                    <div className="flone-preloader-wrapper">
+                      <div className="flone-preloader">
+                        <span></span>
+                        <span></span>
+                      </div>
                     </div>
-                  </div>
-                }
-              >
-                <LoginRegister setToken={setToken} ></LoginRegister>
-                <Switch>
-                  {/* <Route
-                    exact
-                    path={process.env.PUBLIC_URL + "/"}
-                    component={HomeFashion}
-                  /> */}
-                </Switch>
-              </Suspense>
-            </ScrollToTop>
-          </Router>
-        </BreadcrumbsProvider>
-      </ToastProvider>
-    </>
-      )
+                  }
+                >
+                  <LoginRegister onHandleToken={handleToken} ></LoginRegister>
+                </Suspense>
+              </ScrollToTop>
+            </Router>
+          </BreadcrumbsProvider>
+        </ToastProvider>
+      </>
+    )
   }
 
   return (<>
@@ -173,6 +171,11 @@ const App = (props) => {
               }
             >
               <Switch>
+                {(token) ? <Route
+                  exact
+                  path={process.env.PUBLIC_URL + "/logout"}
+                  component={HomeFashion}
+                /> : ("Login")}
                 <Route
                   exact
                   path={process.env.PUBLIC_URL + "/"}
