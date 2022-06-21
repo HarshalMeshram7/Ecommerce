@@ -15,7 +15,8 @@ const LoginRegister = (props) => {
       password: pass
     }
     login(data).then((res) => {
-      if (res !== undefined) {
+      console.log(res);
+      if (res.token !== undefined) {
         localStorage.setItem("token", res.token);
         props.onHandleToken(localStorage.getItem("token"))
       } else {
