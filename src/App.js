@@ -124,7 +124,7 @@ const App = (props) => {
   const [token, setToken] = useState();
   useEffect(() => {
     setToken(localStorage.getItem("token"))
-  }, [])
+  }, [token])
   const handleToken = (value) => {
     setToken(value);
   }
@@ -154,7 +154,6 @@ const App = (props) => {
       </>
     )
   }
-
   return (<>
     <ToastProvider placement="bottom-left">
       <BreadcrumbsProvider>
@@ -171,11 +170,6 @@ const App = (props) => {
               }
             >
               <Switch>
-                {(token) ? <Route
-                  exact
-                  path={process.env.PUBLIC_URL + "/logout"}
-                  component={HomeFashion}
-                /> : ("Login")}
                 <Route
                   exact
                   path={process.env.PUBLIC_URL + "/"}

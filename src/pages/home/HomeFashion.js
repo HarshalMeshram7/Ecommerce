@@ -6,7 +6,7 @@ import FeatureIcon from "../../wrappers/feature-icon/FeatureIcon";
 import TabProduct from "../../wrappers/product/TabProduct";
 import BlogFeatured from "../../wrappers/blog-featured/BlogFeatured";
 
-const HomeFashion = () => {
+const HomeFashion = (props) => {
   return (
     <Fragment>
       <MetaTags>
