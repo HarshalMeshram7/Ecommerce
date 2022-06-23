@@ -2,8 +2,11 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 import { multilanguage } from "redux-multilanguage";
+import { useState } from "react";
+import { Button } from "react-bootstrap";
 
 const MobileNavMenu = ({ strings }) => {
+  const [logOut, setLogOut] = useState(localStorage.getItem("token") ? true : false)
   return (
     <nav className="offcanvas-navigation" id="offcanvas-navigation">
       <ul>
@@ -424,6 +427,16 @@ const MobileNavMenu = ({ strings }) => {
             {strings["contact_us"]}
           </Link>
         </li>
+        {(localStorage.getItem("token")) ? <li>
+          <Button className="btn btn-warning" onClick={() => {
+            localStorage.removeItem("token");
+            setLogOut(false);
+          }}>Log Out</Button>
+        </li> : <li>
+            <Link to={process.env.PUBLIC_URL + "/login-register"}>
+            Login
+          </Link>
+        </li>}
       </ul>
     </nav>
   );

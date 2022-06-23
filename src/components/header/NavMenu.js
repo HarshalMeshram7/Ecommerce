@@ -1,16 +1,18 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
+import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { multilanguage } from "redux-multilanguage";
+import { Redirect } from "react-router-dom";
 
 const NavMenu = ({ strings, menuWhiteClass, sidebarMenu }) => {
+  const [logOut, setLogOut] = useState(localStorage.getItem("token") ? true : false)
   return (
     <div
-      className={` ${
-        sidebarMenu
-          ? "sidebar-menu"
-          : `main-menu ${menuWhiteClass ? menuWhiteClass : ""}`
-      } `}
+      className={` ${sidebarMenu
+        ? "sidebar-menu"
+        : `main-menu ${menuWhiteClass ? menuWhiteClass : ""}`
+        } `}
     >
       <nav>
         <ul>
@@ -498,6 +500,18 @@ const NavMenu = ({ strings, menuWhiteClass, sidebarMenu }) => {
               {strings["contact_us"]}
             </Link>
           </li>
+          {(localStorage.getItem("token")) ? <li>
+            <Button className="btn btn-warning" onClick={() => {
+              localStorage.removeItem("token");
+              setLogOut(false);
+              // eslint-disable-next-line no-unused-expressions
+              <Redirect to='login-register'/>
+            }}>Log Out</Button>
+          </li> : <li>
+            <Link to={process.env.PUBLIC_URL + "/login-register"}>
+              Login
+            </Link>
+          </li>}
         </ul>
       </nav>
     </div>
