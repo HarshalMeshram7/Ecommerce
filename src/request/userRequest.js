@@ -4,7 +4,7 @@ import { MAIN_URL } from "./apiConfig";
 //USER LOGIN
 export const login = async ({ email, password }) => {
     try {
-        const res = await axios.post(`${MAIN_URL}/admin/login_admin/`, {
+        const res = await axios.post(`${MAIN_URL}/user/login`, {
             email,
             password,
         });
